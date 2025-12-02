@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Admin Dashboard</h2>
+  <p>Total Users: <strong>{{ total_users }}</strong></p>
+  <p>Total Quizzes: <strong>{{ total_quizzes }}</strong></p>
+  <p>Total Payouts: <strong>₹{{ '%.2f'|format(total_payouts) }}</strong></p>
+
+  <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;">
+    <a class="btn" href="{{ url_for('admin_subjects') }}">Manage Questions</a>
+    <a class="btn" href="{{ url_for('admin_add_question') }}">Add Question</a>
+    <a class="btn" href="{{ url_for('admin_view_users') }}">View Users</a>
+    <a class="btn" href="{{ url_for('admin_view_attempts') }}">View Attempts</a>
+    <a class="btn" href="{{ url_for('admin_logout') }}">Logout</a>
+  </div>
+</div>
+{% endblock %}

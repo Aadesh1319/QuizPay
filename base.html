@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QuizPay</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <div class="logo"><a href="{{ url_for('index') }}" style="text-decoration:none;color:inherit;">QuizPay</a></div>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        {% if session.get('user_id') %}
+          <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+          <li><a href="{{ url_for('register') }}">Register</a></li>
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('admin_login') }}">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container" style="margin-top:96px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="card" style="margin-bottom:10px;"><strong>{{ category.title() }}:</strong> {{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- optional footer -->
+  <footer class="container text-center" style="padding:20px 0;color:#98a7bf;">
+    <small>© {{ (2025) }} QuizPay</small>
+  </footer>
+</body>
+</html>

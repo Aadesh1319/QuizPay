@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Manage Subjects</h2>
+  <p>Click a subject to view / edit its questions.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:16px;">
+    {% for s in subjects %}
+      <div style="min-width:160px;">
+        <a class="btn" href="{{ url_for('admin_view_questions', subject=s) }}" style="display:block;text-align:center;">{{ s|title }}</a>
+      </div>
+    {% endfor %}
+  </div>
+
+  <hr style="margin:18px 0;">
+  <p>
+    <a class="btn" href="{{ url_for('admin_add_question') }}">Add New Question</a>
+    <a class="btn" href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+  </p>
+</div>
+{% endblock %}

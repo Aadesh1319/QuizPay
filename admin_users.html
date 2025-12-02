@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Users</h2>
+
+  {% if not users %}
+    <p>No users found.</p>
+  {% else %}
+    <table style="width:100%;border-collapse:collapse;" border="1" cellpadding="6" cellspacing="0">
+      <thead style="background:rgba(255,255,255,0.03);">
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Mobile</th>
+          <th>Age</th>
+          <th>Address</th>
+          <th>Wallet</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+          <tr>
+            <td>{{ u[0] }}</td>
+            <td>{{ u[1] }}</td>
+            <td>{{ u[2] }}</td>
+            <td>{{ u[4] or '-' }}</td>
+            <td>{{ u[5] or '-' }}</td>
+            <td>{{ u[6] or '-' }}</td>
+            <td>₹{{ '%.2f'|format(u[3]) }}</td>
+            <td>
+              <form method="post" action="{{ url_for('admin_delete_user', uid=u[0]) }}" onsubmit="return confirm('Delete user?');">
+                <button class="btn" type="submit" style="background:#ff6b6b;">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  <p style="margin-top:12px;">
+    <a class="btn" href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+  </p>
+</div>
+{% endblock %}

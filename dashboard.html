@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Welcome, {{ username }}</h2>
+  <p>Wallet Balance: ₹<strong id="wallet">{{ '%.2f'|format(wallet) }}</strong></p>
+
+  <h3 style="margin-top:12px;">Select Subject</h3>
+  <div class="quiz-categories">
+    <div class="category-card">
+      <a href="{{ url_for('start_quiz', subject='technology') }}" style="color:inherit;text-decoration:none;">
+        <h4>Technology</h4>
+        <p>5 questions · 1 minute/question</p>
+      </a>
+    </div>
+    <div class="category-card">
+      <a href="{{ url_for('start_quiz', subject='science') }}" style="color:inherit;text-decoration:none;">
+        <h4>Science</h4>
+        <p>5 questions · 1 minute/question</p>
+      </a>
+    </div>
+    <div class="category-card">
+      <a href="{{ url_for('start_quiz', subject='history') }}" style="color:inherit;text-decoration:none;">
+        <h4>History</h4>
+        <p>5 questions · 1 minute/question</p>
+      </a>
+    </div>
+  </div>
+
+  <p style="margin-top:12px;">
+    <a class="btn" href="{{ url_for('result') }}">Last Result</a>
+  </p>
+</div>
+{% endblock %}

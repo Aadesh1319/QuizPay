@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  /* FIX DROPDOWN VISIBILITY */
+  select {
+      width: 100%;
+      padding: 4px;                  /* decreased height */
+      color: #000 !important;
+      background: #fff !important;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+  }
+
+  select option {
+      color: #000 !important;
+      background: #fff !important;
+  }
+
+  textarea, input {
+      width: 100%;
+      padding: 4px;                  /* decreased height */
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      color: #000;
+  }
+
+  .form-group {
+      margin-bottom: 15px;
+  }
+
+  .btn {
+      background: #007bff;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+  }
+
+  .btn:hover {
+      background: #0056b3;
+  }
+
+  .card {
+      background: rgba(255,255,255,0.06);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 700px;
+      margin: auto;
+      backdrop-filter: blur(5px);
+  }
+</style>
+
+
+<div class="card">
+  <h2>Add Question</h2>
+  <form method="post" action="{{ url_for('admin_add_question') }}">
+
+    <div class="form-group">
+      <label>Subject</label>
+      <select name="subject" required>
+        <option value="technology">Technology</option>
+        <option value="science">Science</option>
+        <option value="history">History</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Question</label>
+      <textarea name="question" rows="3" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Option 1</label>
+      <input name="option1" required>
+    </div>
+
+    <div class="form-group">
+      <label>Option 2</label>
+      <input name="option2" required>
+    </div>
+
+    <div class="form-group">
+      <label>Option 3</label>
+      <input name="option3" required>
+    </div>
+
+    <div class="form-group">
+      <label>Option 4</label>
+      <input name="option4" required>
+    </div>
+
+    <div class="form-group">
+      <label>Correct Option (1–4)</label>
+      <input name="correct_option" type="number" min="1" max="4" value="1" required>
+    </div>
+
+    <div style="display:flex;gap:10px;">
+      <button class="btn" type="submit">Add Question</button>
+      <a class="btn" href="{{ url_for('admin_subjects') }}" style="background:#555;text-decoration:none;">Cancel</a>
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}

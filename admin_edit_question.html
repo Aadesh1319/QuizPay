@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Edit Question — ID: {{ qid }}</h2>
+
+  <form method="post" action="{{ url_for('admin_edit_question', qid=qid) }}">
+    <div class="form-group">
+      <label>Subject</label>
+      <select name="subject" required>
+        <option value="technology" {% if subject=='technology' %}selected{% endif %}>Technology</option>
+        <option value="science" {% if subject=='science' %}selected{% endif %}>Science</option>
+        <option value="history" {% if subject=='history' %}selected{% endif %}>History</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Question</label>
+      <textarea name="question" rows="3" required>{{ question }}</textarea>
+    </div>
+
+    <div class="form-group"><label>Option 1</label><input name="option1" value="{{ option1 }}" required></div>
+    <div class="form-group"><label>Option 2</label><input name="option2" value="{{ option2 }}" required></div>
+    <div class="form-group"><label>Option 3</label><input name="option3" value="{{ option3 }}" required></div>
+    <div class="form-group"><label>Option 4</label><input name="option4" value="{{ option4 }}" required></div>
+
+    <div class="form-group">
+      <label>Correct Option (1-4)</label>
+      <input name="correct_option" type="number" min="1" max="4" value="{{ correct_option }}" required>
+    </div>
+
+    <div style="display:flex;gap:8px;">
+      <button class="btn" type="submit">Save Changes</button>
+      <a class="btn" href="{{ url_for('admin_view_questions', subject=subject) }}" style="background:rgba(255,255,255,0.06);text-decoration:none;">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

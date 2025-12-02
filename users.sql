@@ -1,0 +1,3 @@
+-- Dump of table `users`
+INSERT INTO `users` (`id`,`username`,`email`,`password`,`mobile_number`,`age`,`address`,`wallet_balance`) VALUES (1,'a','a@gmail.com','scrypt:32768:8:1$xUd6AWjG3psxFOY4$13dc3f6047c611de8888019b6058e541a07909f3747e2f47adcf012f495b4016643ead669d8d7fae9af10baa43abf40b343d412d26d6455d58cc74471e2f803b',NULL,NULL,NULL,'1000.00');
+INSERT INTO `users` (`id`,`username`,`email`,`password`,`mobile_number`,`age`,`address`,`wallet_balance`) VALUES (2,'sakshi','itnaresakshi@gmail.com','scrypt:32768:8:1$GON1nD93mSgUVkdH$735558e0d754459f6e6b13c7293cef1b1cc3e83ecb649566bded7f17d1aadb049378b359b4c3f0cd52799ac8f33ec8666a74861598d6567cc436bb5949124497',NULL,NULL,NULL,'600.00');

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Quiz — {{ subject }}</h2>
+
+  <div id="quizContainer">
+    <div id="timer" class="text-center">Time left: <span id="time">300</span>s</div>
+
+    <form id="quizForm" onsubmit="return false;">
+
+      <!-- All questions but hidden except first -->
+      {% for q in questions %}
+        <div class="question-block"
+             id="question{{ loop.index0 }}"
+             style="margin-bottom:14px;padding:12px;border-radius:8px;background:rgba(255,255,255,0.02); display: {% if loop.index0 == 0 %}block{% else %}none{% endif %};">
+
+          <p><strong>Q{{ loop.index }}.</strong> {{ q.question }}</p>
+
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+            {% for opt in q.options %}
+              <label style="display:flex;gap:10px;align-items:center;">
+                <input type="radio" name="q{{ q.id }}" value="{{ loop.index0 }}" required>
+                <span>{{ opt }}</span>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+
+      <input type="hidden" id="subject" value="{{ subject }}">
+
+      <!-- Buttons -->
+      <div style="display:flex;gap:12px;margin-top:20px;">
+        <button class="btn" id="nextBtn" type="button">Next</button>
+        <button class="btn" id="submitBtn" type="button" style="display:none;">Submit Quiz</button>
+        <a class="btn" href="{{ url_for('dashboard') }}" 
+           style="background:rgba(255,255,255,0.06);text-decoration:none;">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+//==============================
+// TIMER (unchanged)
+//==============================
+let totalSeconds = 300;
+const timeEl = document.getElementById('time');
+let timerId = setInterval(() => {
+  totalSeconds--;
+  timeEl.innerText = totalSeconds;
+  if (totalSeconds <= 0) {
+    clearInterval(timerId);
+    submitQuiz(); 
+  }
+}, 1000);
+
+//==============================
+// QUESTION NAVIGATION LOGIC
+//==============================
+let currentIndex = 0;
+const totalQuestions = {{ questions|length }};
+const nextBtn = document.getElementById("nextBtn");
+const submitBtn = document.getElementById("submitBtn");
+
+nextBtn.onclick = () => {
+  
+  // Ensure user selects an option
+  const radios = document.querySelectorAll(`#question${currentIndex} input[type=radio]`);
+  let selected = false;
+  radios.forEach(r => { if (r.checked) selected = true; });
+
+  if (!selected) {
+    alert("Please select an option before moving forward.");
+    return;
+  }
+
+  // Hide current question
+  document.getElementById("question" + currentIndex).style.display = "none";
+
+  currentIndex++;
+
+  // If last question → show submit button
+  if (currentIndex === totalQuestions - 1) {
+    nextBtn.style.display = "none";
+    submitBtn.style.display = "inline-block";
+  }
+
+  // Show next question
+  document.getElementById("question" + currentIndex).style.display = "block";
+};
+
+//==============================
+// SUBMIT FUNCTION (same)
+//==============================
+submitBtn.onclick = submitQuiz;
+
+function submitQuiz() {
+  clearInterval(timerId);
+
+  const inputs = document.querySelectorAll('input[type=radio]:checked');
+  const answers = {};
+
+  inputs.forEach(inp => {
+    const qid = inp.name.replace('q','');
+    answers[qid] = inp.value;
+  });
+
+  fetch('{{ url_for("submit_quiz") }}', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      subject: document.getElementById('subject').value.toLowerCase(),
+      answers: answers
+    })
+  })
+  .then(r => r.json())
+  .then(j => {
+    if (j.error) {
+      alert(j.error);
+      return;
+    }
+    window.location = "{{ url_for('result') }}";
+  })
+  .catch(err => { alert('Network error'); console.error(err); });
+}
+</script>
+{% endblock %}

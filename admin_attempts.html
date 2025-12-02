@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Quiz Attempts</h2>
+
+  {% if not attempts %}
+    <p>No quiz attempts recorded.</p>
+  {% else %}
+    <table style="width:100%;border-collapse:collapse;" border="1" cellpadding="6" cellspacing="0">
+      <thead style="background:rgba(255,255,255,0.03);">
+        <tr>
+          <th>ID</th><th>User ID</th><th>Username</th><th>Subject</th><th>Score</th><th>Reward</th><th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in attempts %}
+          <tr>
+            <td>{{ a[0] }}</td>
+            <td>{{ a[1] }}</td>
+            <td>{{ a[2] or 'Deleted' }}</td>
+            <td>{{ a[3] }}</td>
+            <td>{{ a[4] }}</td>
+            <td>₹{{ '%.2f'|format(a[5]) }}</td>
+            <td>{{ a[6] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  <p style="margin-top:12px;"><a class="btn" href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a></p>
+</div>
+{% endblock %}
